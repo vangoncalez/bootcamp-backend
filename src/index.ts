@@ -1,10 +1,13 @@
 import express from 'express';
+import { connect } from 'http2';
+import mongoose from 'mongoose';
+import config from './config';
+import { Movie } from './models/movie.model';
+import { User, UserDocument } from './models/user.model';
 
 const app = express();
 
 app.use(express.json());
-
-const port = 5000;
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -12,25 +15,10 @@ app.get('/', (req, res) => {
   })
 });
 
-app.listen(port, () => {
-  console.log('Server funcionando na porta: ', port);
+app.listen(config.PORT, () => {
+  console.log('Server funcionando na porta: ', config.PORT);
+  mongoose.connect(config.MONGO_URI);
+
 })
 
 
-///// para adicionar o pacote express npm i @types/express
-
-
-// import http from 'http';
-
-
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/plain');
-//   res.end('Funcionou');
-// });
-
-// const port = 5000;
-
-// server.listen(port, () => {
-//   console.log('Server funcionando na porta: ', port);
-// })
