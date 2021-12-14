@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import * as sessionController from '../controllers/session.controller'
 import * as userController from '../controllers/user.controller'
-
+import * as movieController from '../controllers/movie.controller';
+import { authorize } from '../middlewares/auth';
 
 const apiRouter = Router();
 
@@ -15,13 +16,16 @@ apiRouter.get('/', (req, res) => {
 
 
 // Rotas de sessão
-apiRouter.post('/users/new', sessionController.create);
+apiRouter.get('/session', authorize, sessionController.index);
+apiRouter.post('/session/new', sessionController.create);
 
 // Rotas de usuário
-apiRouter.post('/users/destroy/:id', userController.destroy);
 apiRouter.get('/users/id/:id', userController.view);
+apiRouter.post('/users/new', userController.create);
+apiRouter.delete('/users/destroy/:id', userController.destroy);
 
 //Rotas de filme
+apiRouter.get('/movies', authorize, movieController.index);
 
 
 //Rota de lista
